@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-server
+spec:
+  selector:
+    matchLabels:
+      app: app-server
+  replicas: 5
+  template:
+    metadata:
+      labels:
+        app: app-server
+    spec:
+      containers:
+      - name: app-server
+        image: binoykalathiparambil/springboot-mongo
+        ports:
+        - containerPort: 8080
+---
+# https://kubernetes.io/docs/concepts/s...  
+kind: Service
+apiVersion: v1
+metadata:
+  name: app-server-service
+spec:
+  selector:
+    app: app-server
+  ports:
+  - protocol: TCP
+    port: 8080
+  type: ClusterIP
